@@ -54,7 +54,7 @@
           <enum>Qt::StrongFocus</enum>
          </property>
          <property name="text">
-          <string>1q2w3e4r!@#</string>
+          <string>mcmc6969!</string>
          </property>
          <property name="echoMode">
           <enum>QLineEdit::Password</enum>
@@ -157,7 +157,7 @@
           <enum>Qt::StrongFocus</enum>
          </property>
          <property name="text">
-          <string>20</string>
+          <string>100</string>
          </property>
         </widget>
        </item>
@@ -265,22 +265,7 @@
         <widget class="QListWidget" name="list_hashtag">
          <item>
           <property name="text">
-           <string>#사진계정소통</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
            <string>#사진계정맞팔</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>#스트릿사진</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>#korea</string>
           </property>
          </item>
         </widget>
@@ -328,7 +313,7 @@
         </widget>
        </item>
        <item row="1" column="1">
-        <widget class="QPushButton" name="btn_stop">
+        <widget class="QPushButton" name="btn_like">
          <property name="focusPolicy">
           <enum>Qt::StrongFocus</enum>
          </property>
@@ -342,7 +327,7 @@
           <string notr="true">background-color: rgb(255, 255, 255);</string>
          </property>
          <property name="text">
-          <string>정지</string>
+          <string>Only Like</string>
          </property>
         </widget>
        </item>

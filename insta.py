@@ -20,7 +20,7 @@ class WindowClass(QMainWindow, form_class):
         self.btn_dm.clicked.connect(self.addList_dm)
         self.btn_dm_del.clicked.connect(self.removeItem_dm)
         self.btn_start.clicked.connect(self.start)
-        self.btn_stop.clicked.connect(self.stop)
+        self.btn_like.clicked.connect(self.like)
 
     def sleep(self, x):
         loop = QEventLoop()
@@ -39,6 +39,7 @@ class WindowClass(QMainWindow, form_class):
 
     def addList_hashtag(self) :
         self.list_hashtag.addItem(self.line_hashtag.text())
+
     def removeItem_hashtag(self) :
         #ListWidget에서 현재 선택한 항목을 삭제할 때는 선택한 항목의 줄을 반환한 후, takeItem함수를 이용해 삭제합니다. 
         self.removeItemRow = self.list_hashtag.currentRow()
@@ -50,8 +51,79 @@ class WindowClass(QMainWindow, form_class):
         self.removeItemRow = self.list_dm.currentRow()
         self.list_dm.takeItem(self.removeItemRow)
 
-    def stop(self):
-        self.__init__()
+    def like(self):
+        insta_id = self.line_id.text()  #아이디
+        insta_pw = self.line_pw.text()  #비밀번호
+        total = 1   #돌린 횟수
+        total_want = int(self.line_cycle.text())   #돌릴 횟수
+        i = 0
+            
+        insta_hashtag = [self.list_hashtag.item(t).text() for t in range(self.list_hashtag.count())]   #해시태그
+
+        driver = webdriver.Chrome('chromedriver.exe')
+        driver.get('https://instagram.com')
+        self.sleep(3)
+
+        e = driver.find_elements_by_class_name('_2hvTZ')[0]
+        e.send_keys(self.line_id.text()) #아이디
+        e = driver.find_elements_by_class_name('_2hvTZ')[1]
+        e.send_keys(self.line_pw.text()) #비밀번호
+        e.send_keys(Keys.ENTER)
+        self.sleep(3)
+        e = driver.find_elements_by_class_name('sqdOP')[0] #계정저장
+        e.click()
+        self.sleep(3)
+        e = driver.find_elements_by_class_name('aOOlW')[1] #알람설정
+        e.click()
+        self.sleep(3)
+
+        while(total <= total_want):
+            try:
+                e = driver.find_elements_by_class_name('eyXLr')[0]  #해시태그 검색
+                e.click()
+                e = driver.find_elements_by_class_name('XTCLo')[0]  #동적페이지 대응
+                e.send_keys(random.choice(insta_hashtag))
+                self.sleep(random.randint(3, 7))  
+                e = driver.find_elements_by_class_name('-qQT3')[0] #검색 목록 중 첫번째 클릭
+                e.click()                #해시태그 검색
+                self.sleep(random.randint(3, 7))  
+
+                #인기 게시물 건너뛰고 일반 게시물 클릭
+                i = 0
+                e = driver.find_elements_by_class_name('_9AhH0')[9+i] 
+                e.click()
+
+                for t in range(total_want):
+                    self.sleep(random.randint(3, 8))
+                    try: #좋아요 클릭할 수 있을 때
+                        e = driver.find_elements_by_class_name('wpO6b')[5] 
+                        if random.randint(0, 1) != 1: 
+                            e.click()   
+                            self.textbox.append('좋아요 누른 게시물 : '+ str(total))
+                            total+=1
+                            t += 1
+                            if total > total_want:
+                                self.textbox.append('------프로그램 종료------')
+                                driver.quit()
+                                break
+                            if total % 25 == 0 :
+                                self.textbox.append('------대휴식------')
+                                self.sleep(random.randint(50, 100))
+                            
+                    except: #이미 좋아요가 눌려있을 때
+                        self.textbox.append('이미 좋아요가 눌려있습니다.')
+                    self.sleep(random.randint(3, 8))
+                    e = driver.find_elements_by_class_name('wpO6b')[2]  
+                    e.click()   
+                    self.sleep(random.randint(3, 8))
+ 
+                    
+            except:
+                self.textbox.append('#############오류로 인한 재실행#############')
+                self.sleep(15)
+                driver.refresh()  #새로고침
+                self.sleep(random.randint(3, 10)+3) 
+                continue
 
     def start(self) :
         insta_id = self.line_id.text()  #아이디
@@ -84,7 +156,6 @@ class WindowClass(QMainWindow, form_class):
         self.sleep(3) 
 
         while(total != total_want):
-        
             try:
                 e = driver.find_elements_by_class_name('pbgfb')[0]  #해시태그 검색
                 e.click()
