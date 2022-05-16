@@ -48,8 +48,6 @@ def sleep(self, x):
 
 # 📌 참고 자료
 
-**제작 일지**
-
-[[파이썬/셀레니움] 인스타그램 봇 만들기 - 1일차 : 셀레니움 설치 및 기초](https://lasbe.tistory.com/3)
+[**제작 일지**](https://lasbe.tistory.com/3)
 
 ![InstaAuto.jpg](InstaAuto%20dcd7b59684fa442abe93a50e10e16f81/InstaAuto.jpg)
